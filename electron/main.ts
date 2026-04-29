@@ -82,7 +82,7 @@ function getAppWritableBaseDir(): string {
   return app.isPackaged ? path.dirname(app.getPath('exe')) : path.resolve(__dirname, '..');
 }
 
-function getProjectLibraryRoot(): string {
+function getPreferredProjectLibraryRoot(): string {
   return path.join(getAppWritableBaseDir(), '.lab-attendance-assistant', 'projects');
 }
 
@@ -100,8 +100,14 @@ async function exists(filePath: string): Promise<boolean> {
 }
 
 async function ensureProjectLibraryRoot(): Promise<string> {
-  const dirPath = getProjectLibraryRoot();
-  await mkdir(dirPath, { recursive: true });
+  const preferredDirPath = getPreferredProjectLibraryRoot();
+  let dirPath = preferredDirPath;
+  try {
+    await mkdir(preferredDirPath, { recursive: true });
+  } catch {
+    dirPath = getLegacyProjectLibraryRoot();
+    await mkdir(dirPath, { recursive: true });
+  }
 
   const legacyDirPath = getLegacyProjectLibraryRoot();
   if (path.resolve(legacyDirPath) === path.resolve(dirPath) || !(await exists(legacyDirPath))) {
