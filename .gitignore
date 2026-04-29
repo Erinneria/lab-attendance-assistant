@@ -4,6 +4,7 @@ node_modules/
 dist-electron/
 dist-renderer/
 dist/
+release/
 
 # Local app data and generated files
 .lab-attendance-assistant/

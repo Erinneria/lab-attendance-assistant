@@ -8,8 +8,38 @@
     "dev": "npm run build:electron && concurrently -k \"vite\" \"tsc -p electron/tsconfig.json -w\" \"wait-on http://127.0.0.1:5173 && node scripts/start-electron-dev.cjs\"",
     "build:electron": "tsc -p electron/tsconfig.json",
     "build": "vite build && tsc -p electron/tsconfig.json",
+    "dist": "npm run build && electron-builder --win nsis portable",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit && tsc -p electron/tsconfig.json --noEmit"
+  },
+  "build": {
+    "appId": "io.github.erinneria.lab-attendance-assistant",
+    "productName": "Lab Attendance Assistant",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist-electron/**/*",
+      "dist-renderer/**/*",
+      "package.json"
+    ],
+    "win": {
+      "signAndEditExecutable": false,
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "artifactName": "${productName}-Setup-${version}-${arch}.${ext}",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}-${arch}.${ext}"
+    }
   },
   "dependencies": {
     "@types/mailparser": "^3.4.6",
@@ -31,6 +61,7 @@
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
     "electron": "^33.2.1",
+    "electron-builder": "^26.8.1",
     "typescript": "^5.7.2",
     "vite": "^6.0.3",
     "vue-tsc": "^2.1.10",

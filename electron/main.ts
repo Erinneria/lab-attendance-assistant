@@ -75,7 +75,7 @@ function isDevServerRunning(): boolean {
 }
 
 function getRendererEntry(): string {
-  return path.join(app.isPackaged ? process.resourcesPath : __dirname, '..', 'dist-renderer', 'index.html');
+  return path.join(__dirname, '..', 'dist-renderer', 'index.html');
 }
 
 function getAppWritableBaseDir(): string {
