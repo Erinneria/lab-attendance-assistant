@@ -59,6 +59,10 @@ npm run build
 
 The build command verifies that the project can be compiled and emits local build artifacts. It does not currently produce a packaged installer.
 
+## User Guide
+
+For step-by-step usage instructions, see [docs/USER_MANUAL.md](docs/USER_MANUAL.md).
+
 ## Data Model
 
 The app stores course workspaces locally. A project contains:
@@ -166,4 +170,3 @@ The repository intentionally ignores:
 - Configurable grading rubrics
 - Better manual review workflow for borderline submissions
 - Optional encrypted storage for mailbox credentials
-
