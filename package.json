@@ -9,7 +9,8 @@
     "build:electron": "tsc -p electron/tsconfig.json",
     "build": "vite build && tsc -p electron/tsconfig.json",
     "clean:release": "node scripts/clean-release.cjs",
-    "dist": "npm run clean:release && npm run build && electron-builder --win nsis && node scripts/make-release-zip.cjs",
+    "patch:app-icon": "node scripts/patch-app-icon.cjs",
+    "dist": "npm run clean:release && npm run build && electron-builder --win dir && npm run patch:app-icon && electron-builder --win nsis --prepackaged release/win-unpacked && node scripts/make-release-zip.cjs",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit && tsc -p electron/tsconfig.json --noEmit"
   },
@@ -25,6 +26,7 @@
       "package.json"
     ],
     "win": {
+      "icon": "build/app-icon.ico",
       "signAndEditExecutable": false,
       "target": [
         "nsis"
@@ -32,6 +34,8 @@
     },
     "nsis": {
       "artifactName": "LabAttendanceAssistant-Setup-${version}-${arch}.${ext}",
+      "installerIcon": "build/installer-icon.ico",
+      "uninstallerIcon": "build/installer-icon.ico",
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
